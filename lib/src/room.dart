@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+import '../flutter_chat_types.dart';
 import 'message.dart';
 import 'user.dart';
 
@@ -15,7 +16,7 @@ enum RoomType { channel, direct, group }
 @immutable
 abstract class Room extends Equatable {
   /// Creates a [Room].
-  const Room._({
+  Room._({
     this.createdAt,
     required this.id,
     this.imageUrl,
@@ -25,9 +26,10 @@ abstract class Room extends Equatable {
     required this.type,
     this.updatedAt,
     required this.users,
+    this.lastMsg,
   });
 
-  const factory Room({
+  factory Room({
     int? createdAt,
     required String id,
     String? imageUrl,
@@ -71,6 +73,8 @@ abstract class Room extends Equatable {
   /// List of users which are in the room.
   final List<User> users;
 
+  Message? lastMsg;
+
   /// Equatable props.
   @override
   List<Object?> get props => [
@@ -109,7 +113,7 @@ abstract class Room extends Equatable {
 
 /// A utility class to enable better copyWith.
 class _Room extends Room {
-  const _Room({
+  _Room({
     super.createdAt,
     required super.id,
     super.imageUrl,
@@ -119,6 +123,7 @@ class _Room extends Room {
     required super.type,
     super.updatedAt,
     required super.users,
+    super.lastMsg
   }) : super._();
 
   @override
